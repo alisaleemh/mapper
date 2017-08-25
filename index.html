@@ -7,41 +7,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <!-- Import Materialize.css  -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
-  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <!-- Import Bootstrap 4  -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <link rel="stylesheet" href="./static/css/styles.css">
 
 </head>
 
 <body>
-  <div class="container">
-    <div class="options-box">
-      <h1>Find Your New NYC Home</h1>
-      <div>
-        <input id="show-listings" type="button" value="Show Listings">
-        <input id="hide-listings" type="button" value="Hide Listings">
-      </div>
+
+
+
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-sm-4 col-lg-3">
+
+        <div class="bootstrap-vertical-nav">
+
+          <button class="btn btn-primary hidden-md-up" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <span class="">Menu</span>
+          </button>
+
+          <div class="collapse" id="collapseExample">
+            <ul class="nav flex-column" id="exCollapsingNavbar3">
+              <li class="nav-item">
+                <h3 class="nav-header"> mapper </h3>
+              </li>
+              <li class="nav-item">
+                <form class="form-inline">
+                  <input class="form-control mr-sm-1" type="search" name="filter" placeholder="Search Listings" aria-label="Search">
+                  <button class="btn btn-outline-success btn-sm" type="submit">Search
+                  </button>
+                </form>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-sm btn-block" id="show-listings" data-bind="css: listingClickShow" >Show Listings</button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-sm btn-block" id="hide-listings" data-bind="css: listingClickHide">Hide Listings</button>
+              </li>
+
+              <li class="nav-item" data-bind="foreach: locations">
+                <button type="button" class="btn btn-sm btn-block" data-bind="text: title"></button>
+              </li>
+        </ul>
+
     </div>
-    <div id="map"></div>
+
+  </div>
+
+</div>
+<div class="col-sm-8 col-lg-9">
+  <div id="map" class="map-box">
   </div>
 
 
+</div>
+</div>
 
-  <script async defer
-  src=
-  "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2mAbX6xMwa-ykcskLYr3ANszwgVoNctw&v=3&callback=initMap">
-  </script>
-  <script type='text/javascript' src='./app.js'> </script>
-  <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
-  <!-- Materialize.js -->
-  <script src="./static/js/bin/materialize.js"></script>
+</div>
+
+
+
+<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script type="text/javascript" src='./static/js/data.js'> </script>
+<script type='text/javascript' src='./app.js'> </script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2mAbX6xMwa-ykcskLYr3ANszwgVoNctw&v=3&callback=initMap"></script>
+
+<script src="./static/js/styles.js"> </script>
 
 
 </body>
