@@ -2,18 +2,7 @@ var map;
 
 // true = showListings not clicked ; false = showListings has been clicked
 
-var viewModel = {
-  self : this,
-  listingClick: ko.observable(1),
-  listingClickShow: ko.pureComputed(function() {
-    return this.listingClick = 1 ? "btn-primary" : "btn-secondary";},
-    this),
-    listingClickHide: ko.pureComputed(function() {
-      return this.listingClick < -1 ? "btn-primary" : "btn-secondary";
-    }, this)
 
-
-  };
 
   // Create a new blank array for all the listing markers.
   var markers = [];
@@ -34,10 +23,10 @@ var viewModel = {
     var largeInfowindow = new google.maps.InfoWindow();
 
     // The following group uses the location array to create an array of markers on initialize.
-    for (var i = 0; i < locations().length; i++) {
+    for (var i = 0; i < viewModel.locations().length; i++) {
       // Get the position from the location array.
-      var position = locations()[i].location;
-      var title = locations()[i].title;
+      var position = viewModel.locations()[i].location;
+      var title = viewModel.locations()[i].title;
       // Create a marker per location, and put into markers array.
       var marker = new google.maps.Marker({
         position: position,
@@ -109,5 +98,37 @@ var viewModel = {
       console.log(viewModel.listingClickHide());
     }
   }
+
+  var viewModel = {
+    listingClick: ko.observable(1),
+    listingClickShow: ko.pureComputed(function() {
+      return this.listingClick = 1 ? "btn-primary" : "btn-secondary";}, this),
+      listingClickHide: ko.pureComputed(function() {
+        return this.listingClick < -1 ? "btn-primary" : "btn-secondary";
+      }, this),
+      query : ko.observable(''),
+      locations : ko.observableArray([
+        {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
+        {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
+        {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
+        {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
+        {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
+        {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
+      ])
+
+
+    };
+
+    viewModel.search = ko.dependentObservable(function() {
+      var self = this;
+      var search = viewModel.query().toLowerCase();
+      console.log(self.locations());
+      console.log('search being called');
+      return ko.utils.arrayFilter(self.locations(), function(location) {
+        return location.title.toLowerCase().indexOf(search) >= 0;
+      });
+      console.log(search);
+    }, viewModel);
+
 
   ko.applyBindings(viewModel);

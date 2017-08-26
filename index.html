@@ -34,44 +34,54 @@
                 <h3 class="nav-header"> mapper </h3>
               </li>
               <li class="nav-item">
+                <div>
                 <form class="form-inline">
-                  <input class="form-control mr-sm-1" type="search" name="filter" placeholder="Search Listings" aria-label="Search">
-                  <button class="btn btn-outline-success btn-sm" type="submit">Search
-                  </button>
-                </form>
-              </li>
-              <li class="nav-item">
-                <button type="button" class="btn btn-sm btn-block" id="show-listings" data-bind="css: listingClickShow" >Show Listings</button>
-              </li>
-              <li class="nav-item">
-                <button type="button" class="btn btn-sm btn-block" id="hide-listings" data-bind="css: listingClickHide">Hide Listings</button>
-              </li>
+                  <input class="search-input" placeholder="Search..." type="text" name="q" data-bind="value: query, valueUpdate: 'keyup'" >
+                  <!-- <button class="btn btn-outline-success btn-sm" type="submit">Search
+                </button> -->
+              </form>
+            </div>
+            </li>
 
-              <li class="nav-item" data-bind="foreach: locations">
-                <button type="button" class="btn btn-sm btn-block" data-bind="text: title"></button>
-              </li>
-        </ul>
+            <li class="nav-item">
+              <button type="button" class="btn btn-sm btn-block" id="show-listings" data-bind="css: listingClickShow" >Show Listings</button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-sm btn-block" id="hide-listings" data-bind="css: listingClickHide">Hide Listings</button>
+            </li>
+
+            <li class="nav-item" data-bind="template: {name: 'location', foreach: search}">
+              <!-- <li class="nav-item" data-bind="foreach: locations"> -->
+
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+
 
     </div>
+    <div class="col-sm-8 col-lg-9">
+      <div id="map" class="map-box">
+      </div>
 
+
+    </div>
   </div>
 
-</div>
-<div class="col-sm-8 col-lg-9">
-  <div id="map" class="map-box">
-  </div>
-
 
 </div>
-</div>
 
+<script type="text/html" id="location">
+  <button type="button" class="btn btn-sm btn-block" data-bind="text: title"></button>
+</script>
 
-</div>
 
 
 
 <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <script type="text/javascript" src='./static/js/data.js'> </script>
