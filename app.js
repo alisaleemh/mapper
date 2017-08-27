@@ -1,6 +1,5 @@
 var map;
 
-// true = showListings not clicked ; false = showListings has been clicked
 
 
 
