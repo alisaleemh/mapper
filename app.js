@@ -35,10 +35,7 @@ function initMarkers() {
         // Push the marker to our array of markers.
         markers.push(marker);
         // Create an onclick event to open an infowindow at each marker.
-        marker.addListener('click', function() {
-            populateInfoWindow(this, largeInfowindow);
-        });
-        // document.getElementById('list-button-' + title).addEventListener('click', showListings(title));
+        marker.addListener('click', populateInfoWindow(this, largeInfowindow));
     }
 }
 
@@ -60,31 +57,33 @@ function populateInfoWindow(marker, infowindow) {
         // In case the status is OK, which means the pano was found, compute the
         // position of the streetview image, then calculate the heading, then get a
         // panorama from that and set the options
-        function getStreetView(data, status) {
-            if (status == google.maps.StreetViewStatus.OK) {
-                var nearStreetViewLocation = data.location.latLng;
-                var heading = google.maps.geometry.spherical.computeHeading(
-                    nearStreetViewLocation, marker.position);
-                infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
-                var panoramaOptions = {
-                    position: nearStreetViewLocation,
-                    pov: {
-                        heading: heading,
-                        pitch: 30
-                    }
-                };
-                var panorama = new google.maps.StreetViewPanorama(
-                    document.getElementById('pano'), panoramaOptions);
-            } else {
-                infowindow.setContent('<div>' + marker.title + '</div>' +
-                    '<div>No Street View Found</div>');
-            }
-        }
+
         // Use streetview service to get the closest streetview image within
         // 50 meters of the markers position
         streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
         // Open the infowindow on the correct marker.
         infowindow.open(map, marker);
+    }
+}
+
+function getStreetView(data, status) {
+    if (status == google.maps.StreetViewStatus.OK) {
+        var nearStreetViewLocation = data.location.latLng;
+        var heading = google.maps.geometry.spherical.computeHeading(
+            nearStreetViewLocation, marker.position);
+        infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+        var panoramaOptions = {
+            position: nearStreetViewLocation,
+            pov: {
+                heading: heading,
+                pitch: 30
+            }
+        };
+        var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('pano'), panoramaOptions);
+    } else {
+        infowindow.setContent('<div>' + marker.title + '</div>' +
+            '<div>No Street View Found</div>');
     }
 }
 
@@ -126,21 +125,9 @@ function hideAllListings() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
-
-
-    if (viewModel.listingClick() == -1) {
-        viewModel.listingClick(1);
-    }
 }
 
 var viewModel = {
-    listingClick: ko.observable(1),
-    listingClickShow: ko.pureComputed(function() {
-        return this.listingClick = 1 ? "btn-primary" : "btn-secondary";
-    }, this),
-    listingClickHide: ko.pureComputed(function() {
-        return this.listingClick < -1 ? "btn-primary" : "btn-secondary";
-    }, this),
     query: ko.observable(''),
     locations: ko.observableArray([{
             title: 'Park Ave Penthouse',
