@@ -44,10 +44,10 @@
             </li>
 
             <li class="nav-item">
-              <button type="button" class="btn btn-sm btn-block" id="show-listings" data-bind="css: listingClickShow" >Show Listings</button>
+              <button type="button" class="btn btn-sm btn-block" id="show-listings" data-bind="click: showAllListings, css: listingClickShow" >Show Listings</button>
             </li>
             <li class="nav-item">
-              <button type="button" class="btn btn-sm btn-block" id="hide-listings" data-bind="css: listingClickHide">Hide Listings</button>
+              <button type="button" class="btn btn-sm btn-block" id="hide-listings" data-bind="click: hideAllListings, css: listingClickHide">Hide Listings</button>
             </li>
 
             <li class="nav-item" data-bind="template: {name: 'location', foreach: search}">
@@ -74,7 +74,7 @@
 </div>
 
 <script type="text/html" id="location">
-  <button type="button" class="btn btn-sm btn-block" data-bind="text: title"></button>
+  <button type="button" class="btn btn-sm btn-block" data-bind="text: title, click: $parent.showListing"></button>
 </script>
 
 
@@ -87,7 +87,7 @@
 <script type="text/javascript" src='./static/js/data.js'> </script>
 <script type='text/javascript' src='./app.js'> </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2mAbX6xMwa-ykcskLYr3ANszwgVoNctw&v=3&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2mAbX6xMwa-ykcskLYr3ANszwgVoNctw&libraries=geometry&v=3&callback=initMap"></script>
 
 <script src="./static/js/styles.js"> </script>
 
