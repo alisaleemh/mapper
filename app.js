@@ -1,10 +1,8 @@
 
-var Location = function (title, lng, lat, address ){
+var Location = function (title, lng, lat  ){
   var self = this;
   this.title = title;
   this.location = {lat: lat, lng: lng};
-  this.address = address;
-  // this.content = '<p>' + this.title + this.address + '</p>';
 
   this.infoWindow = new google.maps.InfoWindow();
   this.streetViewService = new google.maps.StreetViewService ;
@@ -17,11 +15,10 @@ var Location = function (title, lng, lat, address ){
 
 
 
-  this.openInfowindow = function() {
+  this.showInfoWindow = function() {
     for (var i=0; i < viewModel.locations.length; i++) {
       viewModel.locations[i].infoWindow.close();
       viewModel.locations[i].marker.setMap(null);
-      console.log("closing" + viewModel.locations[i].title)
     }
     self.streetViewService.getPanoramaByLocation(self.marker.position, 50, self.getStreetView);
 
@@ -32,7 +29,6 @@ var Location = function (title, lng, lat, address ){
   };
 
   this.getStreetView = function()  {
-    console.log(self.title);
     self.content = '<div>' + self.marker.title + '</div><div id="pano"></div>';
     self.infoWindow.setContent('<div>' + self.title + '</div><div id="pano"></div>');
 
@@ -56,11 +52,11 @@ var Location = function (title, lng, lat, address ){
   var viewModel = {
 
     locations:[
-      new Location('Chinatown Homey Space', 40.7180628, -73.9961237, '2010 Lawrence Ave E, Scarborough, ON M1R 2Z1'),
-      new Location('TriBeCa Artsy Bachelor Pad', 40.7195264, -74.0089934, '815 Britannia Rd W #3, Mississauga, ON L5V 2X8'),
-      new Location('East Village Hip Studio', 40.7281777, -73.984377, '4adc8051f964a520b92c21e3'),
-      new Location('Union Square Open Floor Plan', 40.7347062, -73.9895759, '4bb8979c3db7b713c965219a'),
-      new Location('Chelsea Loft', 40.7444883, -73.9949465, '2283 Argentia Rd, Mississauga, ON L5N 2X7')
+      new Location('Chinatown Homey Space', 40.7180628, -73.9961237),
+      new Location('TriBeCa Artsy Bachelor Pad', 40.7195264, -74.0089934),
+      new Location('East Village Hip Studio', 40.7281777, -73.984377),
+      new Location('Union Square Open Floor Plan', 40.7347062, -73.9895759),
+      new Location('Chelsea Loft', 40.7444883, -73.9949465)
     ],
     query: ko.observable(''),
 
