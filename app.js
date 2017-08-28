@@ -5,7 +5,7 @@ var Location = function (title, lng, lat  ){
   this.location = {lat: lat, lng: lng};
 
   this.infoWindow = new google.maps.InfoWindow();
-  this.streetViewService = new google.maps.StreetViewService ;
+  this.streetViewService = new google.maps.StreetViewService() ;
   this.marker = new google.maps.Marker({
     position: new google.maps.LatLng(self.location.lng, self.location.lat),
     map: map,
@@ -41,10 +41,9 @@ var Location = function (title, lng, lat  ){
         pitch: 0
       }
     };
-    console.log(self.location);
     var panorama = new google.maps.StreetViewPanorama(
       document.getElementById('pano'), panoramaOptions);
-    }
+    };
 
     this.addListener = google.maps.event.addListener(self.marker, 'click', (this.openInfowindow));
   };
