@@ -1,198 +1,99 @@
-var map;
-// Create a new blank array for all the listing markers.
-var markers = [];
 
-function initMap() {
-    // Constructor creates a new map - only center and zoom are required.
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {
-            lat: 40.7413549,
-            lng: -73.9980244
-        },
-        zoom: 13,
-        mapTypeControl: false
-    });
+var Location = function (title, lng, lat, address ){
+  var self = this;
+  this.title = title;
+  this.location = {lat: lat, lng: lng};
+  this.address = address;
+  // this.content = '<p>' + this.title + this.address + '</p>';
 
-    initMarkers();
-}
+  this.infoWindow = new google.maps.InfoWindow();
+  this.streetViewService = new google.maps.StreetViewService ;
+  this.marker = new google.maps.Marker({
+    position: new google.maps.LatLng(self.location.lng, self.location.lat),
+    map: map,
+    title: self.title,
+    animation: google.maps.Animation.DROP
+  });
 
-// This function initiiates the markers based on data in the viewModel
-function initMarkers() {
-    var largeInfowindow = new google.maps.InfoWindow();
 
-    // The following group uses the location array to create an array of markers on initialize.
-    for (var i = 0; i < viewModel.locations().length; i++) {
-        // Get the position from the location array.
-        var position = viewModel.locations()[i].location;
-        var title = viewModel.locations()[i].title;
-        // Create a marker per location, and put into markers array.
-        var marker = new google.maps.Marker({
-            position: position,
-            title: title,
-            animation: google.maps.Animation.DROP,
-            id: i
-        });
-        // Push the marker to our array of markers.
-        markers.push(marker);
-        // Create an onclick event to open an infowindow at each marker.
-        marker.addListener('click', populateInfoWindow(this, largeInfowindow));
+
+  this.openInfowindow = function() {
+    for (var i=0; i < viewModel.locations.length; i++) {
+      viewModel.locations[i].infoWindow.close();
+      viewModel.locations[i].marker.setMap(null);
+      console.log("closing" + viewModel.locations[i].title)
     }
-}
+    self.streetViewService.getPanoramaByLocation(self.marker.position, 50, self.getStreetView);
 
-// This function populates the infowindow when the marker is clicked. We'll only allow
-// one infowindow which will open at the marker that is clicked, and populate based
-// on that markers position.
-function populateInfoWindow(marker, infowindow) {
-    // Check to make sure the infowindow is not already opened on this marker.
-    if (infowindow.marker != marker) {
-        // Clear the infowindow content to give the streetview time to load.
-        infowindow.setContent('');
-        infowindow.marker = marker;
-        // Make sure the marker property is cleared if the infowindow is closed.
-        infowindow.addListener('closeclick', function() {
-            infowindow.marker = null;
-        });
-        var streetViewService = new google.maps.StreetViewService();
-        var radius = 50;
-        // In case the status is OK, which means the pano was found, compute the
-        // position of the streetview image, then calculate the heading, then get a
-        // panorama from that and set the options
+    map.panTo(self.marker.getPosition());
+    // self.infoWindow.setContent(self.content);
+    self.marker.setMap(map);
+    self.infoWindow.open(map, self.marker);
+  };
 
-        // Use streetview service to get the closest streetview image within
-        // 50 meters of the markers position
-        streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-        // Open the infowindow on the correct marker.
-        infowindow.open(map, marker);
+  this.getStreetView = function()  {
+    console.log(self.title);
+    self.content = '<div>' + self.marker.title + '</div><div id="pano"></div>';
+    self.infoWindow.setContent('<div>' + self.title + '</div><div id="pano"></div>');
+
+    var panoramaOptions = {
+      position: {
+          lat: self.location.lat,
+          lng: self.location.lng
+      },      pov: {
+        heading: 160,
+        pitch: 0
+      }
+    };
+    console.log(self.location);
+    var panorama = new google.maps.StreetViewPanorama(
+      document.getElementById('pano'), panoramaOptions);
     }
-}
 
-function getStreetView(data, status) {
-    if (status == google.maps.StreetViewStatus.OK) {
-        var nearStreetViewLocation = data.location.latLng;
-        var heading = google.maps.geometry.spherical.computeHeading(
-            nearStreetViewLocation, marker.position);
-        infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
-        var panoramaOptions = {
-            position: nearStreetViewLocation,
-            pov: {
-                heading: heading,
-                pitch: 30
-            }
-        };
-        var panorama = new google.maps.StreetViewPanorama(
-            document.getElementById('pano'), panoramaOptions);
-    } else {
-        infowindow.setContent('<div>' + marker.title + '</div>' +
-            '<div>No Street View Found</div>');
-    }
-}
+    this.addListener = google.maps.event.addListener(self.marker, 'click', (this.openInfowindow));
+  };
 
-// This function will loop through the markers array and display them all.
-function showAllListings() {
+  var viewModel = {
 
-    var bounds = new google.maps.LatLngBounds();
-
-
-    // Extend the boundaries of the map for each marker and display the marker
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
-        bounds.extend(markers[i].position);
-    }
-    map.fitBounds(bounds);
-    if (viewModel.listingClick() == 1) {
-        viewModel.listingClick(-1);
-    }
-}
-
-// This function will loop through the markers array and display them all.
-function showListing(markerTitle) {
-    hideAllListings();
-
-    var bounds = new google.maps.LatLngBounds();
-    console.log(markerTitle);
-
-    if (markerTitle) {
-        var marker = markers.filter(function(object) {
-            return object.title == markerTitle;
-        });
-        console.log(marker);
-        marker[0].setMap(map);
-    }
-}
-
-// This function will loop through the listings and hide them all.
-function hideAllListings() {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
-}
-
-var viewModel = {
+    locations:[
+      new Location('Chinatown Homey Space', 40.7180628, -73.9961237, '2010 Lawrence Ave E, Scarborough, ON M1R 2Z1'),
+      new Location('TriBeCa Artsy Bachelor Pad', 40.7195264, -74.0089934, '815 Britannia Rd W #3, Mississauga, ON L5V 2X8'),
+      new Location('East Village Hip Studio', 40.7281777, -73.984377, '4adc8051f964a520b92c21e3'),
+      new Location('Union Square Open Floor Plan', 40.7347062, -73.9895759, '4bb8979c3db7b713c965219a'),
+      new Location('Chelsea Loft', 40.7444883, -73.9949465, '2283 Argentia Rd, Mississauga, ON L5N 2X7')
+    ],
     query: ko.observable(''),
-    locations: ko.observableArray([{
-            title: 'Park Ave Penthouse',
-            location: {
-                lat: 40.7713024,
-                lng: -73.9632393
-            }
-        },
-        {
-            title: 'Chelsea Loft',
-            location: {
-                lat: 40.7444883,
-                lng: -73.9949465
-            }
-        },
-        {
-            title: 'Union Square Open Floor Plan',
-            location: {
-                lat: 40.7347062,
-                lng: -73.9895759
-            }
-        },
-        {
-            title: 'East Village Hip Studio',
-            location: {
-                lat: 40.7281777,
-                lng: -73.984377
-            }
-        },
-        {
-            title: 'TriBeCa Artsy Bachelor Pad',
-            location: {
-                lat: 40.7195264,
-                lng: -74.0089934
-            }
-        },
-        {
-            title: 'Chinatown Homey Space',
-            location: {
-                lat: 40.7180628,
-                lng: -73.9961237
-            }
-        }
-    ]),
-    // This function will loop through the markers array and display them all.
-    showListing: function(markerObj) {
-        hideAllListings();
 
-        var bounds = new google.maps.LatLngBounds();
+  };
 
-        if (markerObj.title) {
-            var marker = markers.filter(function(object) {
-                return object.title == markerObj.title;
-            });
-            marker[0].setMap(map);
-        }
-    }
-};
 
-viewModel.search = ko.dependentObservable(function() {
+  // Search function for filtering through the list of locations based on the name of the location.
+  viewModel.search = ko.dependentObservable(function() {
     var self = this;
-    var search = viewModel.query().toLowerCase();
-    return ko.utils.arrayFilter(locations(), function(location) {
-        return location.title.toLowerCase().indexOf(search) >= 0;
+    console.log("search being called");
+    var search = this.query().toLowerCase();
+    return ko.utils.arrayFilter(self.locations, function(location) {
+      return location.title.toLowerCase().indexOf(search) >= 0;
     });
-}, viewModel);
+  }, viewModel);
 
-ko.applyBindings(viewModel);
+  function hideAllListings () {
+    for (var i=0; i < this.locations.length; i++){
+      viewModel.locations[i].marker.setMap(null);
+      console.log('hideAllListings being called');
+      console.log(this.locations[i].marker);
+    }
+  }
+
+  function showAllListings() {
+    for (var i=0; i < this.locations.length; i++){
+      viewModel.locations[i].marker.setMap(map);
+      console.log('showAllListings being called');
+      console.log(this.locations[i].marker);
+    }
+  }
+
+
+
+
+  ko.applyBindings(viewModel);

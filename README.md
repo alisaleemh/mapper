@@ -9,8 +9,7 @@ A single page application utilizing KnockoutJS and the Google Maps API.
 ## Functionality:
 * Google map loaded from Maps API.
 * Map loaded from the Google Maps API asyncrounously
-* Map markers located at Points of Interest (Restaurants)
-* Map shows multiple restaurants (Points of Interest)
+* Map markers located at Points of Interests
 * Points of Interest markers can be filtered via a search box
 * Page is responsive.
 * Page is built using Knockout JS
