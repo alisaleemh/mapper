@@ -2,6 +2,7 @@
 
 <head>
 
+  <title> mapper </title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,7 +32,7 @@
           </button>
 
           <div class="collapse" id="collapseExample">
-            <ul class="nav flex-column" id="exCollapsingNavbar3">
+            <ul class="nav flex-column" >
               <li class="nav-item">
                 <h3 class="nav-header"> mapper </h3>
               </li>
@@ -47,10 +48,10 @@
                 <button type="button" class="btn btn-sm btn-block btw-primary" data-bind="click: showAllListings" id="show-listings"  >Show Listings</button>
               </li>
               <li class="nav-item">
-                <button type="button" class="btn btn-sm btn-block btn-secondary" id="hide-listings"data-bind="click: hideAllListings" >Hide Listings</button>
+                <button type="button" class="btn btn-sm btn-block btn-secondary" id="hide-listings" data-bind="click: hideAllListings" >Hide Listings</button>
               </li>
             </ul>
-            <ul class="nav flex-column" id="exCollapsingNavbar3" data-bind="template: {name: 'location', foreach: search}">
+            <ul class="nav flex-column" data-bind="template: {name: 'location', foreach: search}">
             </ul>
             <script type="text/html" id="location">
               <li class="nav-item" >
