@@ -202,5 +202,9 @@ function initMap() {
 
 }
 
+function googleError() {
+  alert("Error loadings the maps API. Please check your internet connection");
+}
+
 
 ko.applyBindings(viewModel);
