@@ -23,7 +23,7 @@ var Location = function (title, lng, lat, venueId ){
       function(data) {
         $.each(data.response.tips.items, function(i, tips){
           // foursquare api has bug that doesn't limit the number of responses
-          if (i < 5) {topTips.push('<li>' + tips.text + '</li>') }
+          if (i < 5) {topTips.push('<li>' + tips.text + '</li>';) }
         });
 
       }).done(function(){
@@ -39,13 +39,13 @@ var Location = function (title, lng, lat, venueId ){
       for (var i=0; i < viewModel.locations.length; i++) {
         viewModel.locations[i].infowindow.close();
       }
-    }
+    };
 
     this.nullAllMarkers = function() {
       for (var i=0; i < viewModel.locations.length; i++) {
         viewModel.locations[i].marker.setMap(null);
       }
-    }
+    };
 
     this.showInfoWindow = function() {
       for (var i=0; i < viewModel.locations.length; i++) {
@@ -77,7 +77,7 @@ var Location = function (title, lng, lat, venueId ){
           }
         }
       );
-    }
+    };
 
     self.marker.addListener('click', function() {
       self.closeAllInfowindows();
@@ -143,7 +143,7 @@ var Location = function (title, lng, lat, venueId ){
       }
     }
   ]),
-}
+};
 
 var viewModel = {
 
@@ -157,7 +157,7 @@ viewModel.instantiateLocations = function () {
     var location = new Location(model.locations()[i].title, model.locations()[i].location.lat, model.locations()[i].location.lng, model.locations()[i].venueId);
     viewModel.locations.push(location);
   }
-}
+};
 
 
 // Search function for filtering through the list of locations based on the name of the location.
@@ -166,8 +166,8 @@ viewModel.search = ko.dependentObservable(function() {
   console.log('searcih being called');
   var search = this.query().toLowerCase();
   return ko.utils.arrayFilter(self.locations, function(location) {
-    if (location.title.toLowerCase().indexOf(search) < 0) {location.marker.setMap(null) };
-    if (location.title.toLowerCase().indexOf(search) >= 0) {location.marker.setMap(map) };
+    if (location.title.toLowerCase().indexOf(search) < 0) {location.marker.setMap(null); }
+    if (location.title.toLowerCase().indexOf(search) >= 0) {location.marker.setMap(map); }
     return location.title.toLowerCase().indexOf(search) >= 0;
 
   });
