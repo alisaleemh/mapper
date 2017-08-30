@@ -23,7 +23,7 @@ var Location = function (title, lng, lat, venueId ){
       function(data) {
         $.each(data.response.tips.items, function(i, tips){
           // foursquare api has bug that doesn't limit the number of responses
-          if (i < 5) {topTips.push('<li>' + tips.text + '</li>') };
+          if (i < 5) {topTips.push('<li>' + tips.text + '</li>') }
         });
 
       }).done(function(){
