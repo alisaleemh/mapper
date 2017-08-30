@@ -94,7 +94,7 @@ var Location = function (title, lng, lat, venueId ){
   var model = {
     locations: ko.observableArray([{
       title: 'Park Ave Penthouse',
-      venueId: '52d884c5498ecf5c7cafe5ab',
+      venueId: '4b8087f0f964a520727a30e3',
       location: {
         lat: 40.7713024,
         lng: -73.9632393
@@ -102,7 +102,7 @@ var Location = function (title, lng, lat, venueId ){
     },
     {
       title: 'Chelsea Loft',
-      venueId: '52d884c5498ecf5c7cafe5ab',
+      venueId: '4bcc85d8511f95217e1cb3c7',
       location: {
         lat: 40.7444883,
         lng: -73.9949465
@@ -110,7 +110,7 @@ var Location = function (title, lng, lat, venueId ){
     },
     {
       title: 'Union Square Open Floor Plan',
-      venueId: '52d884c5498ecf5c7cafe5ab',
+      venueId: '3fd66200f964a520def11ee3',
       location: {
         lat: 40.7347062,
         lng: -73.9895759
@@ -118,7 +118,7 @@ var Location = function (title, lng, lat, venueId ){
     },
     {
       title: 'East Village Hip Studio',
-      venueId: '52d884c5498ecf5c7cafe5ab',
+      venueId: '51278a09e4b0b624edbc914c',
 
       location: {
         lat: 40.7281777,
@@ -127,7 +127,7 @@ var Location = function (title, lng, lat, venueId ){
     },
     {
       title: 'TriBeCa Artsy Bachelor Pad',
-      venueId: '52d884c5498ecf5c7cafe5ab',
+      venueId: '4f53d65de4b0b589399898a1  ',
       location: {
         lat: 40.7195264,
         lng: -74.0089934
@@ -136,7 +136,7 @@ var Location = function (title, lng, lat, venueId ){
     },
     {
       title: 'Chinatown Homey Space',
-      venueId: '52d884c5498ecf5c7cafe5ab',
+      venueId: '4ea832fe8b8154b19ffa31ad',
       location: {
         lat: 40.7180628,
         lng: -73.9961237
