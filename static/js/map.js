@@ -5,7 +5,7 @@ function initMap() {
             lat: 40.7413549,
             lng: -73.9980244
         },
-        zoom: 12,
+        zoom: 13,
         mapTypeControl: false
     });
 }

@@ -65,19 +65,67 @@ var Location = function (title, lng, lat  ){
   // this.addListener = google.maps.event.addListener(self.marker, 'click', (this.openInfowindow));
 };
 
+var model = {
+  locations: ko.observableArray([{
+          title: 'Park Ave Penthouse',
+          location: {
+              lat: 40.7713024,
+              lng: -73.9632393
+          }
+      },
+      {
+          title: 'Chelsea Loft',
+          location: {
+              lat: 40.7444883,
+              lng: -73.9949465
+          }
+      },
+      {
+          title: 'Union Square Open Floor Plan',
+          location: {
+              lat: 40.7347062,
+              lng: -73.9895759
+          }
+      },
+      {
+          title: 'East Village Hip Studio',
+          location: {
+              lat: 40.7281777,
+              lng: -73.984377
+          }
+      },
+      {
+          title: 'TriBeCa Artsy Bachelor Pad',
+          location: {
+              lat: 40.7195264,
+              lng: -74.0089934
+          }
+      },
+      {
+          title: 'Chinatown Homey Space',
+          location: {
+              lat: 40.7180628,
+              lng: -73.9961237
+          }
+      }
+  ]),
+}
+
 var viewModel = {
 
-  locations:[
-    new Location('Chinatown Homey Space', 40.7180628, -73.9961237),
-    new Location('TriBeCa Artsy Bachelor Pad', 40.7195264, -74.0089934),
-    new Location('East Village Hip Studio', 40.7281777, -73.984377),
-    new Location('Union Square Open Floor Plan', 40.7347062, -73.9895759),
-    new Location('Chelsea Loft', 40.7444883, -73.9949465)
-  ],
+  locations: [],
   query: ko.observable(''),
-
 };
 
+viewModel.instantiateLocations = function () {
+  for (i=0;i<model.locations().length;i++)
+  {
+    var location = new Location(model.locations()[i].title, model.locations()[i].location.lat, model.locations()[i].location.lng);
+    viewModel.locations.push(location);
+    }
+}
+
+viewModel.instantiateLocations();
 
 // Search function for filtering through the list of locations based on the name of the location.
 viewModel.search = ko.dependentObservable(function() {
@@ -91,6 +139,8 @@ viewModel.search = ko.dependentObservable(function() {
   });
 }, viewModel);
 
+
+
 function hideAllListings () {
   for (var i=0; i < this.locations.length; i++){
     viewModel.locations[i].marker.setMap(null);
@@ -102,7 +152,6 @@ function showAllListings() {
     viewModel.locations[i].marker.setMap(map);
   }
 }
-
 
 
 
