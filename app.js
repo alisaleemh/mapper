@@ -1,3 +1,5 @@
+
+
 var Location = function (title, lng, lat, venueId ){
   var self = this;
   this.title = title;
@@ -59,8 +61,9 @@ var Location = function (title, lng, lat, venueId ){
     };
 
     this.getStreetView = function()  {
-      self.content = self.content.concat(' ' + '<div>' + '</div><div id="pano"></div>' );
-      console.log('getStreetView' + self.content);
+      // will look into this after project
+      // self.content = self.content.concat(' ' + '<div>' + '</div><div id="pano"></div>' );
+      // console.log('getStreetView' + self.content);
       self.infowindow.setContent(self.content);
 
       this.panorama = new google.maps.StreetViewPanorama(
@@ -69,8 +72,8 @@ var Location = function (title, lng, lat, venueId ){
             lat: self.location.lat,
             lng: self.location.lng
           }, pov: {
-            heading: 160,
-            pitch: 20
+            heading: 85,
+            pitch: 30
           }
         }
       );
@@ -145,7 +148,7 @@ var Location = function (title, lng, lat, venueId ){
 var viewModel = {
 
   locations: [],
-  query: ko.observable(''),
+  query: ko.observable(' '),
 };
 
 viewModel.instantiateLocations = function () {
@@ -156,11 +159,11 @@ viewModel.instantiateLocations = function () {
   }
 }
 
-viewModel.instantiateLocations();
 
 // Search function for filtering through the list of locations based on the name of the location.
 viewModel.search = ko.dependentObservable(function() {
   var self = this;
+  console.log('searcih being called');
   var search = this.query().toLowerCase();
   return ko.utils.arrayFilter(self.locations, function(location) {
     if (location.title.toLowerCase().indexOf(search) < 0) {location.marker.setMap(null) };
@@ -184,6 +187,20 @@ function showAllListings() {
   }
 }
 
+function initMap() {
+    // Constructor creates a new map - only center and zoom are required.
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+            lat: 40.7413549,
+            lng: -73.9980244
+        },
+        zoom: 13,
+        mapTypeControl: false
+    });
+    viewModel.instantiateLocations();
+
+
+}
 
 
 ko.applyBindings(viewModel);
