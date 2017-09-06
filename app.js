@@ -28,7 +28,7 @@ var Location = function (title, lng, lat, venueId ){
 
       }).done(function(){
 
-        self.content = '<h2>' + self.title + '</h2>' + '<h3>5 Most Recent Comments</h3>' + '<ol class="tips">' + topTips.join('') + '</ol>';
+        self.content = '<h2>' + self.title + '</h2>' + '<h3>5 Most Recent Comments</h3>' + '<ol>' + topTips.join('') + '</ol>';
       }).fail(function(jqXHR, textStatus, errorThrown) {
         self.content = '<h2>' + self.title + '</h2>' + '<h3>5 Most Recent Comments</h3>' + '<h4>Oops. There was a problem retrieving this location\'s comments.</h4>';
         console.log('getJSON request failed! ' + textStatus);
@@ -52,8 +52,7 @@ var Location = function (title, lng, lat, venueId ){
         viewModel.locations[i].infowindow.close();
         viewModel.locations[i].marker.setMap(null);
       }
-      self.streetViewService.getPanoramaByLocation(self.marker.position, 50, self.getStreetView);
-
+      //self.streetViewService.getPanoramaByLocation(self.marker.position, 50, self.getStreetView);
       map.panTo(self.marker.getPosition());
       self.infowindow.setContent(self.content);
       self.marker.setMap(map);
@@ -62,27 +61,27 @@ var Location = function (title, lng, lat, venueId ){
 
     this.getStreetView = function()  {
       // will look into this after project
+      
       // self.content = self.content.concat(' ' + '<div>' + '</div><div id="pano"></div>' );
       // console.log('getStreetView' + self.content);
-      self.infowindow.setContent(self.content);
-
-      this.panorama = new google.maps.StreetViewPanorama(
-        document.getElementById('pano'), {
-          position: {
-            lat: self.location.lat,
-            lng: self.location.lng
-          }, pov: {
-            heading: 85,
-            pitch: 30
-          }
-        }
-      );
+      // self.infowindow.setContent(self.content);
+      //
+      // this.panorama = new google.maps.StreetViewPanorama(
+      //   document.getElementById('pano'), {
+      //     position: {
+      //       lat: self.location.lat,
+      //       lng: self.location.lng
+      //     }, pov: {
+      //       heading: 85,
+      //       pitch: 30
+      //     }
+      //   }
+      // );
     };
 
     self.marker.addListener('click', function() {
       self.closeAllInfowindows();
       self.streetViewService.getPanoramaByLocation(self.marker.position, 50, self.getStreetView);
-      console.log(self.content);
       self.infowindow.setContent(self.content);
       self.marker.setMap(map);
       self.infowindow.open(map, self.marker);
@@ -102,7 +101,7 @@ var Location = function (title, lng, lat, venueId ){
     },
     {
       title: 'Chelsea Loft',
-      venueId: '4bcc85d8511f95217e1cb3c7',
+      venueId: '3fd66200f964a520def11ee3',
       location: {
         lat: 40.7444883,
         lng: -73.9949465
@@ -127,7 +126,7 @@ var Location = function (title, lng, lat, venueId ){
     },
     {
       title: 'TriBeCa Artsy Bachelor Pad',
-      venueId: '4f53d65de4b0b589399898a1  ',
+      venueId: '3fd66200f964a520def11ee3',
       location: {
         lat: 40.7195264,
         lng: -74.0089934
@@ -163,7 +162,6 @@ viewModel.instantiateLocations = function () {
 // Search function for filtering through the list of locations based on the name of the location.
 viewModel.search = ko.dependentObservable(function() {
   var self = this;
-  console.log('searcih being called');
   var search = this.query().toLowerCase();
   return ko.utils.arrayFilter(self.locations, function(location) {
     if (location.title.toLowerCase().indexOf(search) < 0) {location.marker.setMap(null); }
@@ -205,6 +203,5 @@ function initMap() {
 function googleError() {
   alert("Error loadings the maps API. Please check your internet connection");
 }
-
 
 ko.applyBindings(viewModel);
