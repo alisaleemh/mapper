@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <head>
-
   <title> mapper </title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,21 +10,13 @@
   <!-- Import Bootstrap 4  -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <link rel="stylesheet" href="./static/css/styles.css">
-
-
-
-
-
-
 </head>
 
 <body>
-
-
-
   <div class="container-fluid">
 
     <div class="row">
+
       <div class="col-sm-4 col-lg-3">
 
         <div class="bootstrap-vertical-nav">
@@ -35,7 +26,9 @@
           </button>
 
           <div class="collapse" id="collapseExample">
+
             <ul class="nav flex-column" >
+
               <li class="nav-item">
                 <h3 class="nav-header"> mapper </h3>
               </li>
@@ -46,7 +39,6 @@
                   </form>
                 </div>
               </li>
-
               <li class="nav-item">
                 <button type="button" class="btn btn-sm btn-block btw-primary" data-bind="click: showAllListings" id="show-listings"  >Show Listings</button>
               </li>
@@ -54,47 +46,24 @@
                 <button type="button" class="btn btn-sm btn-block btn-secondary" id="hide-listings" data-bind="click: hideAllListings" >Hide Listings</button>
               </li>
             </ul>
+
             <ul class="nav flex-column" data-bind="template: {name: 'location', foreach: search}">
             </ul>
-
-            <!-- <ul class="nav flex-column" data-bind-"foreach: locations">
-            <li class="nav-item" >
-              <button class="btn-sm btn-block btn-primary" data-bind="text: title, click: showInfoWindow"> </button>
-            </li>
-            <ul> -->
-
-
-
-
-
           </div>
-
         </div>
-
-
       </div>
       <div class="col-sm-8 col-lg-9">
         <div id="map" class="map-box">
         </div>
-
-
       </div>
     </div>
-
-
   </div>
-
-
-
-
-
 
   <!-- <script type="text/javascript" src='./static/js/map.js'> </script> -->
   <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-
   <script type="text/html" id="location">
     <li class="nav-item" >
       <button class="btn-sm btn-block btn-primary" data-bind="text: title, click: showInfoWindow"> </button>
@@ -102,10 +71,4 @@
   </script>
   <script type='text/javascript' src='./app.js'> </script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2mAbX6xMwa-ykcskLYr3ANszwgVoNctw&libraries=geometry&v=3&callback=initMap" onerror="googleError()"></script>
-
-
-
-
-
-
 </body>
