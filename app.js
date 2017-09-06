@@ -56,12 +56,13 @@ var Location = function (title, lng, lat, venueId ){
       map.panTo(self.marker.getPosition());
       self.infowindow.setContent(self.content);
       self.marker.setMap(map);
+      self.bounceMarker();
       self.infowindow.open(map, self.marker);
     };
 
     this.getStreetView = function()  {
       // will look into this after project
-        
+
       // self.content = self.content.concat(' ' + '<div>' + '</div><div id="pano"></div>' );
       // console.log('getStreetView' + self.content);
       // self.infowindow.setContent(self.content);
@@ -79,10 +80,23 @@ var Location = function (title, lng, lat, venueId ){
       // );
     };
 
+    this.bounceMarker = function () {
+      if (self.marker.getAnimation() !== null) {
+        self.marker.setAnimation(null);
+      } else {
+        self.marker.setAnimation(google.maps.Animation.BOUNCE);
+        window.setTimeout(function() {
+          self.marker.setAnimation(null)
+        }, 1500);
+      }
+    }
+
+
     self.marker.addListener('click', function() {
       self.closeAllInfowindows();
       self.streetViewService.getPanoramaByLocation(self.marker.position, 50, self.getStreetView);
       self.infowindow.setContent(self.content);
+      self.bounceMarker();
       self.marker.setMap(map);
       self.infowindow.open(map, self.marker);
     });
@@ -147,11 +161,11 @@ var Location = function (title, lng, lat, venueId ){
 var viewModel = {
 
   locations: [],
-  query: ko.observable(' '),
+  query: ko.observable(''),
 };
 
 viewModel.instantiateLocations = function () {
-  for (i=0;i<model.locations().length;i++)
+  for (i=0,len = model.locations().length; i < len; i++)
   {
     var location = new Location(model.locations()[i].title, model.locations()[i].location.lat, model.locations()[i].location.lng, model.locations()[i].venueId);
     viewModel.locations.push(location);
@@ -162,12 +176,14 @@ viewModel.instantiateLocations = function () {
 // Search function for filtering through the list of locations based on the name of the location.
 viewModel.search = ko.dependentObservable(function() {
   var self = this;
+    // self.instantiateLocations();
   var search = this.query().toLowerCase();
-  return ko.utils.arrayFilter(self.locations, function(location) {
+  console.log(this.query());
+  return ko.utils.arrayFilter(self.locations,function(location) {
     if (location.title.toLowerCase().indexOf(search) < 0) {location.marker.setMap(null); }
     if (location.title.toLowerCase().indexOf(search) >= 0) {location.marker.setMap(map); }
+    if (location.title.toLowerCase().length = 0) {return true ;}
     return location.title.toLowerCase().indexOf(search) >= 0;
-
   });
 }, viewModel);
 
@@ -186,16 +202,16 @@ function showAllListings() {
 }
 
 function initMap() {
-    // Constructor creates a new map - only center and zoom are required.
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {
-            lat: 40.7413549,
-            lng: -73.9980244
-        },
-        zoom: 13,
-        mapTypeControl: false
-    });
-    viewModel.instantiateLocations();
+  // Constructor creates a new map - only center and zoom are required.
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {
+      lat: 40.7413549,
+      lng: -73.9980244
+    },
+    zoom: 13,
+    mapTypeControl: false
+  });
+  viewModel.instantiateLocations();
 
 
 }
