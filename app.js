@@ -61,7 +61,7 @@ var Location = function (title, lng, lat, venueId ){
 
     this.getStreetView = function()  {
       // will look into this after project
-      
+        
       // self.content = self.content.concat(' ' + '<div>' + '</div><div id="pano"></div>' );
       // console.log('getStreetView' + self.content);
       // self.infowindow.setContent(self.content);
