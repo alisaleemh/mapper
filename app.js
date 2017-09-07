@@ -86,10 +86,10 @@ var Location = function (title, lng, lat, venueId ){
       } else {
         self.marker.setAnimation(google.maps.Animation.BOUNCE);
         window.setTimeout(function() {
-          self.marker.setAnimation(null)
+          self.marker.setAnimation(null);
         }, 1500);
       }
-    }
+    };
 
 
     self.marker.addListener('click', function() {
@@ -181,7 +181,6 @@ viewModel.search = ko.dependentObservable(function() {
     return ko.utils.arrayFilter(self.locations(),function(location) {
     if (location.title.toLowerCase().indexOf(search) < 0) {location.marker.setMap(null); }
     if (location.title.toLowerCase().indexOf(search) >= 0) {location.marker.setMap(map); }
-    if (location.title.toLowerCase().length = 0) {return true ;}
     return location.title.toLowerCase().indexOf(search) >= 0;
   });
 }, viewModel);
