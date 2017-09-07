@@ -1,4 +1,4 @@
-
+var infowindow;
 
 var Location = function (title, lng, lat, venueId ){
   var self = this;
@@ -54,10 +54,10 @@ var Location = function (title, lng, lat, venueId ){
       }
       //self.streetViewService.getPanoramaByLocation(self.marker.position, 50, self.getStreetView);
       map.panTo(self.marker.getPosition());
-      self.infowindow.setContent(self.content);
+      infowindow.setContent(self.content);
       self.marker.setMap(map);
       self.bounceMarker();
-      self.infowindow.open(map, self.marker);
+      infowindow.open(map, self.marker);
     };
 
     this.getStreetView = function()  {
@@ -65,7 +65,7 @@ var Location = function (title, lng, lat, venueId ){
 
       // self.content = self.content.concat(' ' + '<div>' + '</div><div id="pano"></div>' );
       // console.log('getStreetView' + self.content);
-      // self.infowindow.setContent(self.content);
+      // infowindow.setContent(self.content);
       //
       // this.panorama = new google.maps.StreetViewPanorama(
       //   document.getElementById('pano'), {
@@ -95,10 +95,10 @@ var Location = function (title, lng, lat, venueId ){
     self.marker.addListener('click', function() {
       self.closeAllInfowindows();
       self.streetViewService.getPanoramaByLocation(self.marker.position, 50, self.getStreetView);
-      self.infowindow.setContent(self.content);
+      infowindow.setContent(self.content);
       self.bounceMarker();
       self.marker.setMap(map);
-      self.infowindow.open(map, self.marker);
+      infowindow.open(map, self.marker);
     });
 
     // this.addListener = google.maps.event.addListener(self.marker, 'click', (this.openInfowindow));
@@ -160,7 +160,7 @@ var Location = function (title, lng, lat, venueId ){
 
 var viewModel = {
 
-  locations: [],
+  locations: ko.observableArray(),
   query: ko.observable(''),
 };
 
@@ -178,8 +178,7 @@ viewModel.search = ko.dependentObservable(function() {
   var self = this;
     // self.instantiateLocations();
   var search = this.query().toLowerCase();
-  console.log(this.query());
-  return ko.utils.arrayFilter(self.locations,function(location) {
+    return ko.utils.arrayFilter(self.locations(),function(location) {
     if (location.title.toLowerCase().indexOf(search) < 0) {location.marker.setMap(null); }
     if (location.title.toLowerCase().indexOf(search) >= 0) {location.marker.setMap(map); }
     if (location.title.toLowerCase().length = 0) {return true ;}
@@ -212,8 +211,7 @@ function initMap() {
     mapTypeControl: false
   });
   viewModel.instantiateLocations();
-
-
+  infowindow = new google.maps.InfoWindow();
 }
 
 function googleError() {
